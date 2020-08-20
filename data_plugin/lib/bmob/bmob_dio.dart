@@ -196,7 +196,7 @@ class BmobDio {
       //没有加密
       map["X-Bmob-Application-Id"] = Bmob.bmobAppId;
       map["X-Bmob-REST-API-Key"] = Bmob.bmobRestApiKey;
-    } else if(Bmob.bmobSecretKey.isNotEmpty){
+    } else if (Bmob.bmobSecretKey.isNotEmpty) {
       //加密
       int indexQuestion = path.indexOf("?");
 
@@ -213,7 +213,7 @@ class BmobDio {
       map["X-Bmob-Noncestr-Key"] = nonceStrKey;
       map["X-Bmob-Safe-Sign"] =
           getSafeSign(path, nonceStrKey, safeTimeStamp, data);
-    }else{
+    } else {
       //没有初始化
       print("请先进行SDK的初始化，再进行网络请求。");
     }

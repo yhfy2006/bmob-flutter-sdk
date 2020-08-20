@@ -12,6 +12,8 @@ import 'package:data_plugin/bmob/table/bmob_user.dart';
 import 'package:data_plugin/bmob/table/bmob_object.dart';
 import 'package:data_plugin/bmob/type/bmob_pointer.dart';
 
+import 'table/bmob_object.dart';
+
 //此处与类名一致，由指令自动生成代码
 part 'bmob_query.g.dart';
 
@@ -79,31 +81,43 @@ class BmobQuery<T> {
     return this;
   }
 
+  BmobQuery addWhereRealtedTo(
+      String relatedClassName, BmobObject queryObj, String key) {
+    Map<String, dynamic> map = new Map();
+    String op = '\$relatedTo';
+    map["__type"] = "Pointer";
+    map["objectId"] = queryObj.objectId;
+    map["className"] = relatedClassName;
+    Map<String, dynamic> objMap = new Map();
+    objMap['object'] = map;
+    objMap['key'] = key;
 
-  //复合查询条件or
-  BmobQuery or(List<BmobQuery<T>> queries){
-    List<Map<String, dynamic>> list = List();
-    for(BmobQuery<T> bmobQuery in queries){
-      list.add(bmobQuery.where);
-    }
-    addCondition("\$or", null,list);
+    where[op] = objMap;
     return this;
   }
 
+  //复合查询条件or
+  BmobQuery or(List<BmobQuery<T>> queries) {
+    List<Map<String, dynamic>> list = List();
+    for (BmobQuery<T> bmobQuery in queries) {
+      list.add(bmobQuery.where);
+    }
+    addCondition("\$or", null, list);
+    return this;
+  }
 
   //复合查询条件and
   BmobQuery and(List<BmobQuery<T>> queries) {
     List<Map<String, dynamic>> list = List();
-    for(BmobQuery<T> bmobQuery in queries){
+    for (BmobQuery<T> bmobQuery in queries) {
       list.add(bmobQuery.where);
     }
     addCondition("\$and", null, list);
     return this;
   }
 
-
   BmobQuery addWhereContains(String key, Object value) {
-    String regex = "\\Q"+value+"\\E";
+    String regex = "\\Q" + value + "\\E";
     addWhereMatches(key, regex);
     return this;
   }
@@ -112,17 +126,15 @@ class BmobQuery<T> {
     addCondition(key, "\$regex", regex);
   }
 
-
   BmobQuery addWhereExists(String key) {
     addCondition(key, "\$exists", true);
     return this;
   }
+
   BmobQuery addWhereDoesNotExists(String key) {
     addCondition(key, "\$exists", false);
     return this;
   }
-
-
 
   ///是否返回统计的记录个数
   BmobQuery hasGroupCount(bool has) {

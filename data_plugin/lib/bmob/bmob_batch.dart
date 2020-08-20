@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:data_plugin/bmob/bmob.dart';
-import 'package:data_plugin/bmob/table/bmob_object.dart';
-import 'package:data_plugin/bmob/table/bmob_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'bmob.dart';
 import 'bmob_dio.dart';
+import 'table/bmob_object.dart';
+import 'table/bmob_user.dart';
 
 class BmobBatch {
   Future<List> insertBatch(List<BmobObject> bmobObjects) async {

@@ -14,12 +14,6 @@ import 'package:data_plugin/bmob/type/bmob_relation.dart';
 
 ///Bmob对象基本类型
 abstract class BmobObject {
-
-
-
-
-
-
   //创建时间
   String createdAt;
 
@@ -70,6 +64,8 @@ abstract class BmobObject {
   BmobObject();
 
   Map getParams();
+
+  Map<String, dynamic> toJson();
 
   ///新增一条数据
   Future<BmobSaved> save() async {
@@ -152,7 +148,7 @@ abstract class BmobObject {
   String getParamsJsonFromParamsMap(map) {
     Map<String, dynamic> data = new Map();
     //去除由服务器生成的字段值
-    if(map==null){
+    if (map == null) {
       print("请先在继承类中实现BmobObject中的Map getParams()方法！");
     }
     map.remove(Bmob.BMOB_PROPERTY_OBJECT_ID);

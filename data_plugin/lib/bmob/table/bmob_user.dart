@@ -85,6 +85,26 @@ class BmobUser extends BmobObject {
     return bmobUser;
   }
 
+  Future<Map<String, dynamic>> loginByWechat(
+      String openId, String accessToken, int expiresIn) async {
+    Map<String, dynamic> authData = {};
+    Map<String, dynamic> weixin = {
+      "openid": openId,
+      "access_token": accessToken,
+      "expires_in": expiresIn
+    };
+    authData['weixin'] = weixin;
+
+    Map<String, dynamic> data = {'authData': authData};
+
+    Map result = await BmobDio.getInstance()
+        .post(Bmob.BMOB_API_USERS, data: getParamsJsonFromParamsMap(data));
+
+    BmobUser bmobUser = BmobUser.fromJson(result);
+    BmobDio.getInstance().setSessionToken(bmobUser.sessionToken);
+    return result;
+  }
+
   ///手机短信验证码登录
   Future<BmobUser> loginBySms(String smsCode) async {
     Map<String, dynamic> map = toJson();

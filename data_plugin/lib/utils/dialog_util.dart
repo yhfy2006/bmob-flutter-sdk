@@ -3,7 +3,6 @@
  */
 import 'package:flutter/material.dart';
 
-
 ///显示操作结果的提示框
 void showResult(BuildContext context, String title, String message) {
   showDialog<Null>(
@@ -33,11 +32,11 @@ void showResult(BuildContext context, String title, String message) {
 }
 
 ///显示操作成功的提示框
-void showSuccess(BuildContext context,String message){
+void showSuccess(BuildContext context, String message) {
   showResult(context, "success", message);
 }
 
 ///显示操作失败的提示框
-void showError(BuildContext context,String message){
+void showError(BuildContext context, String message) {
   showResult(context, "error", message);
 }

@@ -29,7 +29,7 @@ class BmobBatch {
     print(userJson);
     BmobUser bmobUser;
     if (userJson != null) {
-      bmobUser = json.decode(userJson);
+      bmobUser = BmobUser.fromJson(json.decode(userJson));
     }
 
     for (BmobObject bmobObject in bmobObjects) {
@@ -59,6 +59,17 @@ class BmobBatch {
         tmp.forEach((key, value) {
           if (value == null) {
             body.remove(key);
+          }
+
+          if (key == 'user' && value != null && value is Map) {
+            final objId = (value as Map)['objectId'];
+            if (objId != null) {
+              body[key] = {
+                '__type': 'Pointer',
+                'className': '_User',
+                "objectId": objId
+              };
+            }
           }
         });
         single["body"] = body;

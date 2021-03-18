@@ -37,9 +37,9 @@ class BmobDio {
       //响应流上前后两次接受到数据的间隔，单位为毫秒。如果两次间隔超过[receiveTimeout]，将会抛出一个[DioErrorType.RECEIVE_TIMEOUT]的异常。
       receiveTimeout: 3000,
       //请求头部
-//      headers: {
-//        "Content-Type": "application/json",
-//      },
+      headers: {
+        "Content-Type": "application/json",
+      },
     );
 
     dio = new Dio(options);

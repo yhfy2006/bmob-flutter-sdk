@@ -13,6 +13,7 @@ import 'package:data_plugin/bmob/table/bmob_object.dart';
 import 'package:data_plugin/bmob/type/bmob_pointer.dart';
 
 import 'table/bmob_object.dart';
+import 'package:intl/intl.dart';
 
 //此处与类名一致，由指令自动生成代码
 part 'bmob_query.g.dart';
@@ -271,6 +272,14 @@ class BmobQuery<T> {
         map["className"] = value.runtimeType.toString();
 
         Map<String, dynamic> map1 = new Map();
+        map1[condition] = map;
+        where[key] = map1;
+      } else if (value is DateTime) {
+        Map<String, dynamic> map = new Map();
+        Map<String, dynamic> map1 = new Map();
+        map["__type"] = "Date";
+        map["iso"] =
+            (DateFormat('yyyy-MM-dd HH:MM:ss')).format((value as DateTime));
         map1[condition] = map;
         where[key] = map1;
       } else {

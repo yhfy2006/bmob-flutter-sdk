@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:data_plugin/utils/logger.dart';
 import 'package:flutter/services.dart';
 
 enum FileType {
@@ -50,8 +51,7 @@ class FilePicker {
   static Future<dynamic> _getPath(String type, bool multipleSelection) async {
     try {
       Map map = {"type": type, "multi": multipleSelection};
-      dynamic result =
-          await _channel.invokeMethod("filePicker", map);
+      dynamic result = await _channel.invokeMethod("filePicker", map);
       if (result != null && multipleSelection) {
         if (result is String) {
           result = [result];
@@ -61,9 +61,9 @@ class FilePicker {
       }
       return result;
     } on PlatformException catch (e) {
-      print('[$_tag] Platform exception: ' + e.toString());
+      BmobLogger.logger.d('[$_tag] Platform exception: ' + e.toString());
     } catch (e) {
-      print(
+      BmobLogger.logger.d(
           '[$_tag] Unsupported operation. Method not found. The exception thrown was: ' +
               e.toString());
     }

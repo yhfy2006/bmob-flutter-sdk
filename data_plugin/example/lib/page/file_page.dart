@@ -55,7 +55,9 @@ class _FilePageState extends State<FilePage> {
       setState(() {
         _fileName = _path != null
             ? _path.split('/').last
-            : _paths != null ? _paths.keys.toString() : '...';
+            : _paths != null
+                ? _paths.keys.toString()
+                : '...';
         DataPlugin.toast("所选文件：$_fileName");
       });
     }
@@ -133,42 +135,39 @@ class _FilePageState extends State<FilePage> {
                 ),
                 new Builder(
                   builder: (BuildContext context) => new Container(
-                        padding: const EdgeInsets.only(bottom: 30.0),
-                        height: MediaQuery.of(context).size.height * 0.50,
-                        child: new Scrollbar(
-                          child: _path != null || _paths != null
-                              ? new ListView.separated(
-                                  itemCount: _paths != null && _paths.isNotEmpty
-                                      ? _paths.length
-                                      : 1,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    final bool isMultiPath =
-                                        _paths != null && _paths.isNotEmpty;
-                                    final String name = 'File $index: ' +
-                                        (isMultiPath
-                                            ? _paths.keys.toList()[index]
-                                            : _fileName ?? '...');
-                                    final path = isMultiPath
-                                        ? _paths.values
-                                            .toList()[index]
-                                            .toString()
-                                        : _path;
+                    padding: const EdgeInsets.only(bottom: 30.0),
+                    height: MediaQuery.of(context).size.height * 0.50,
+                    child: new Scrollbar(
+                      child: _path != null || _paths != null
+                          ? new ListView.separated(
+                              itemCount: _paths != null && _paths.isNotEmpty
+                                  ? _paths.length
+                                  : 1,
+                              itemBuilder: (BuildContext context, int index) {
+                                final bool isMultiPath =
+                                    _paths != null && _paths.isNotEmpty;
+                                final String name = 'File $index: ' +
+                                    (isMultiPath
+                                        ? _paths.keys.toList()[index]
+                                        : _fileName ?? '...');
+                                final path = isMultiPath
+                                    ? _paths.values.toList()[index].toString()
+                                    : _path;
 
-                                    return new ListTile(
-                                      title: new Text(
-                                        name,
-                                      ),
-                                      subtitle: new Text(path),
-                                    );
-                                  },
-                                  separatorBuilder:
-                                      (BuildContext context, int index) =>
-                                          new Divider(),
-                                )
-                              : new Container(),
-                        ),
-                      ),
+                                return new ListTile(
+                                  title: new Text(
+                                    name,
+                                  ),
+                                  subtitle: new Text(path),
+                                );
+                              },
+                              separatorBuilder:
+                                  (BuildContext context, int index) =>
+                                      new Divider(),
+                            )
+                          : new Container(),
+                    ),
+                  ),
                 ),
               ],
             ),

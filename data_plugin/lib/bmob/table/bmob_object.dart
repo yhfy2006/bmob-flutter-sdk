@@ -11,6 +11,7 @@ import 'package:data_plugin/bmob/type/bmob_geo_point.dart';
 import 'package:data_plugin/bmob/type/bmob_date.dart';
 import 'package:data_plugin/bmob/type/bmob_file.dart';
 import 'package:data_plugin/bmob/type/bmob_relation.dart';
+import 'package:data_plugin/utils/logger.dart';
 
 ///Bmob对象基本类型
 abstract class BmobObject {
@@ -71,7 +72,7 @@ abstract class BmobObject {
   Future<BmobSaved> save() async {
     Map<String, dynamic> map = getParams();
     String params = getParamsJsonFromParamsMap(map);
-    print(params);
+    BmobLogger.logger.d(params);
     String tableName = BmobUtils.getTableName(this);
     switch (tableName) {
       case "BmobInstallation":
@@ -94,7 +95,7 @@ abstract class BmobObject {
       throw bmobError;
     } else {
       String params = getParamsJsonFromParamsMap(map);
-      print(params);
+      BmobLogger.logger.d(params);
       String tableName = BmobUtils.getTableName(this);
       Map responseData = await BmobDio.getInstance().put(
           Bmob.BMOB_API_CLASSES + tableName + Bmob.BMOB_API_SLASH + objectId,
@@ -149,7 +150,7 @@ abstract class BmobObject {
     Map<String, dynamic> data = new Map();
     //去除由服务器生成的字段值
     if (map == null) {
-      print("请先在继承类中实现BmobObject中的Map getParams()方法！");
+      BmobLogger.logger.d("请先在继承类中实现BmobObject中的Map getParams()方法！");
     }
     map.remove(Bmob.BMOB_PROPERTY_OBJECT_ID);
     map.remove(Bmob.BMOB_PROPERTY_CREATED_AT);

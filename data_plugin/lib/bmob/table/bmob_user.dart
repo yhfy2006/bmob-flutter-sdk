@@ -1,4 +1,5 @@
 import 'package:data_plugin/bmob/response/bmob_handled.dart';
+import 'package:data_plugin/utils/logger.dart';
 
 import 'bmob_object.dart';
 import 'package:data_plugin/bmob/bmob_dio.dart';
@@ -74,12 +75,13 @@ class BmobUser extends BmobObject {
     //发送请求
     Map result = await BmobDio.getInstance()
         .get(Bmob.BMOB_API_LOGIN + getUrlParams(data));
-    print('12345'+result.toString());
-    if (result.containsKey('emailVerified') && (result['emailVerified'] as String).isEmpty) {
+    BmobLogger.logger.d('12345' + result.toString());
+    if (result.containsKey('emailVerified') &&
+        (result['emailVerified'] as String).isEmpty) {
       result['emailVerified'] = false;
     }
-    if (result.containsKey('mobilePhoneNumberVerified') && (result['mobilePhoneNumberVerified'] as String)
-        .isEmpty) {
+    if (result.containsKey('mobilePhoneNumberVerified') &&
+        (result['mobilePhoneNumberVerified'] as String).isEmpty) {
       result['mobilePhoneNumberVerified'] = false;
     }
     BmobUser bmobUser = BmobUser.fromJson(result);
@@ -87,7 +89,7 @@ class BmobUser extends BmobObject {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 //    prefs.setString("user", result.toString());
     prefs.setString("user", json.encode(bmobUser));
-    print(result.toString());
+    BmobLogger.logger.d(result.toString());
 
     BmobDio.getInstance().setSessionToken(bmobUser.sessionToken);
     return bmobUser;
@@ -133,7 +135,7 @@ class BmobUser extends BmobObject {
     //发送请求
     Map result = await BmobDio.getInstance()
         .post(Bmob.BMOB_API_USERS, data: getParamsJsonFromParamsMap(data));
-    print(result);
+    BmobLogger.logger.d(result);
     BmobUser bmobUser = BmobUser.fromJson(result);
     BmobDio.getInstance().setSessionToken(bmobUser.sessionToken);
     return bmobUser;
@@ -159,7 +161,7 @@ class BmobUser extends BmobObject {
     Map result = await BmobDio.getInstance().post(
         Bmob.BMOB_API_REQUEST_PASSWORD_RESET,
         data: getParamsJsonFromParamsMap(data));
-    print(result);
+    BmobLogger.logger.d(result);
     BmobHandled bmobHandled = BmobHandled.fromJson(result);
     return bmobHandled;
   }
@@ -186,7 +188,7 @@ class BmobUser extends BmobObject {
             Bmob.BMOB_API_SLASH +
             smsCode,
         data: getParamsJsonFromParamsMap(data));
-    print(result);
+    BmobLogger.logger.d(result);
     BmobHandled bmobHandled = BmobHandled.fromJson(result);
     return bmobHandled;
   }
@@ -201,7 +203,7 @@ class BmobUser extends BmobObject {
     //发送请求
     Map result = await BmobDio.getInstance()
         .post(Bmob.BMOB_API_REQUEST_REQUEST_EMAIL_VERIFY, data: data);
-    print(result);
+    BmobLogger.logger.d(result);
     BmobHandled bmobHandled = BmobHandled.fromJson(result);
     return bmobHandled;
   }
@@ -230,7 +232,7 @@ class BmobUser extends BmobObject {
     Map result = await BmobDio.getInstance().put(
         Bmob.BMOB_API_REQUEST_UPDATE_USER_PASSWORD + objectId,
         data: getParamsJsonFromParamsMap(data));
-    print(result);
+    BmobLogger.logger.d(result);
     BmobHandled bmobHandled = BmobHandled.fromJson(result);
     return bmobHandled;
   }

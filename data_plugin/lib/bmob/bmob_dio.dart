@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:data_plugin/utils/logger.dart';
 import 'package:dio/dio.dart';
 import 'bmob.dart';
 
@@ -55,7 +56,9 @@ class BmobDio {
     for (var i = 0; i < length; i++) {
       left = left + alphabet[Random().nextInt(alphabet.length)];
     }
-    print(left);
+    // print(left);
+    BmobLogger.logger.d(left);
+
     return left;
   }
 
@@ -67,9 +70,11 @@ class BmobDio {
         nonceStrKey +
         data.toString() +
         Bmob.bmobSDKVersion;
-    print(origin);
+    BmobLogger.logger.d(origin);
+    // print(origin);
     var md5 = generateMd5(origin);
-    print(md5);
+    BmobLogger.logger.d(md5);
+    // print(md5);
     return md5;
   }
 
@@ -83,7 +88,8 @@ class BmobDio {
   ///获取时间戳 秒
   getSafeTimestamp() {
     int second = (new DateTime.now().millisecondsSinceEpoch) ~/ 1000;
-    print(second);
+    // print(second);
+    BmobLogger.logger.d(second);
     return second.toString();
   }
 
@@ -101,14 +107,17 @@ class BmobDio {
 
     var requestUrl = options.baseUrl + path;
     var headers = options.headers.toString();
-    print('Get请求启动! url：$requestUrl ,body: $data ,headers:$headers');
+    // print('Get请求启动! url：$requestUrl ,body: $data ,headers:$headers');
+    BmobLogger.logger
+        .d('Get请求启动! url：$requestUrl ,body: $data ,headers:$headers');
     Response response = await dio.get(
       requestUrl,
       queryParameters: data,
       cancelToken: cancelToken,
     );
 
-    print('Get请求结果：' + response.toString());
+    BmobLogger.logger.d('Get请求结果：' + response.toString());
+    // print('Get请求结果：' + response.toString());
     return response.data;
   }
 
@@ -118,13 +127,16 @@ class BmobDio {
 
     var requestUrl = options.baseUrl + path;
     var headers = options.headers.toString();
-    print('Post请求启动! url：$requestUrl ,body: $data ,headers:$headers');
+    // print('Post请求启动! url：$requestUrl ,body: $data ,headers:$headers');
+    BmobLogger.logger
+        .d('Post请求启动! url：$requestUrl ,body: $data ,headers:$headers');
     Response response = await dio.post(
       requestUrl,
       data: Stream.fromFuture(data),
       cancelToken: cancelToken,
     );
-    print('Post请求结果：' + response.toString());
+    // print('Post请求结果：' + response.toString());
+    BmobLogger.logger.d('Post请求结果：' + response.toString());
 
     return response.data;
   }
@@ -135,13 +147,16 @@ class BmobDio {
 
     var requestUrl = options.baseUrl + path;
     var headers = options.headers.toString();
-    print('Post请求启动! url：$requestUrl ,body: $data ,headers:$headers');
+    // print('Post请求启动! url：$requestUrl ,body: $data ,headers:$headers');
+    BmobLogger.logger
+        .d('Post请求启动! url：$requestUrl ,body: $data ,headers:$headers');
     Response response = await dio.post(
       requestUrl,
       data: data,
       cancelToken: cancelToken,
     );
-    print('Post请求结果：' + response.toString());
+    // print('Post请求结果：' + response.toString());
+    BmobLogger.logger.d('Post请求结果：' + response.toString());
     return response.data;
   }
 
@@ -154,10 +169,13 @@ class BmobDio {
     options.headers.addAll(getHeaders(path, ""));
 
     var requestUrl = options.baseUrl + path;
-    print('Delete请求启动! url：$requestUrl ,body: $data');
+    // print('Delete请求启动! url：$requestUrl ,body: $data');
+    BmobLogger.logger.d('Delete请求启动! url：$requestUrl ,body: $data');
     Response response =
         await dio.delete(requestUrl, data: data, cancelToken: cancelToken);
-    print('Delete请求结果：' + response.toString());
+    // print('Delete请求结果：' + response.toString());
+    BmobLogger.logger.d('Delete请求结果：' + response.toString());
+
     return response.data;
   }
 
@@ -166,10 +184,10 @@ class BmobDio {
     options.headers.addAll(getHeaders(path, data));
 
     var requestUrl = options.baseUrl + path;
-    print('Put请求启动! url：$requestUrl ,body: $data');
+    BmobLogger.logger.d('Put请求启动! url：$requestUrl ,body: $data');
     Response response =
         await dio.put(requestUrl, data: data, cancelToken: cancelToken);
-    print('Put请求结果：' + response.toString());
+    BmobLogger.logger.d('Put请求结果：' + response.toString());
     return response.data;
   }
 
@@ -178,13 +196,14 @@ class BmobDio {
     options.headers.addAll(getHeaders(requestUrl, data));
 
     var headers = options.headers.toString();
-    print('Get请求启动! url：$requestUrl ,body: $data ,headers:$headers');
+    BmobLogger.logger
+        .d('Get请求启动! url：$requestUrl ,body: $data ,headers:$headers');
     Response response = await dio.get(
       requestUrl,
       queryParameters: data,
       cancelToken: cancelToken,
     );
-    print('Get请求结果：' + response.toString());
+    BmobLogger.logger.d('Get请求结果：' + response.toString());
     return response.data;
   }
 
@@ -215,7 +234,7 @@ class BmobDio {
           getSafeSign(path, nonceStrKey, safeTimeStamp, data);
     } else {
       //没有初始化
-      print("请先进行SDK的初始化，再进行网络请求。");
+      BmobLogger.logger.d("请先进行SDK的初始化，再进行网络请求。");
     }
 
     map["Content-Type"] = "application/json";

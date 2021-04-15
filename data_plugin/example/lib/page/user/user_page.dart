@@ -131,11 +131,10 @@ class _UserPageState extends State<UserPage> {
                     style: new TextStyle(color: Colors.white))),
             RaisedButton(
                 onPressed: () {
-                  BmobUser.requestEmailVerify("13760289294@139.com").then((BmobHandled handled){
-
+                  BmobUser.requestEmailVerify("13760289294@139.com")
+                      .then((BmobHandled handled) {
                     showSuccess(context, handled.toJson().toString());
-                  }).catchError((e){
-
+                  }).catchError((e) {
                     showError(context, BmobError.convert(e).error);
                   });
                 },
